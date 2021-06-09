@@ -63,9 +63,21 @@ const BlogLayout = ({ children }) => {
           )}
         </nav>
       </header>
-      <main className="max-w-4xl mx-auto p-12 bg-white shadow rounded-b">
-        {children}
-      </main>
+
+      <div className="container px-4 mx-auto">
+        <div className="max-w-2xl mx-auto mb-16 text-center">
+          <span className="text-blue-400 uppercase font-semibold tracking-widest">Lorem ipsum</span>
+          <h2 className="my-5 text-4xl font-bold font-heading text-blue-800">Lorem ipsum dolor sit amet consectutar</h2>
+          <p className="text-lg text-gray-500">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque massa nibh, pulvinar vitae aliquet nec, accumsan aliquet orci.</p>
+        </div>
+        <div className="flex flex-wrap -mx-4 -mb-20">
+
+          {children}
+
+
+        </div>
+      </div>
+
       {modalState === 'OPEN' && <LoginModal />}
     </>
   )
