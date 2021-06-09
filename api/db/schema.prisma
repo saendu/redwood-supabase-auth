@@ -16,6 +16,7 @@ model Post {
   body      String
   comments  Comment[]
   createdAt DateTime  @default(now())
+  imageUrl  String?
 }
 
 model Contact {
