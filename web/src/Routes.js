@@ -13,6 +13,7 @@ import BlogLayout from 'src/layouts/BlogLayout'
 const Routes = () => {
   return (
     <Router>
+      <Route path="/weather" page={WeatherPage} name="weather" />
       <Set wrap={BlogLayout}>
         <Route path="/contact" page={ContactPage} name="contact" />
         <Route path="/blog-post/{id:Int}" page={BlogPostPage} name="blogPost" />

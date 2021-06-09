@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@redwoodjs/api": "^0.29.0",
-    "@redwoodjs/api-server": "^0.29.0"
+    "@redwoodjs/api-server": "^0.29.0",
+    "node-fetch": "^2.6.1"
   }
 }
