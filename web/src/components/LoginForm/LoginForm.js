@@ -48,6 +48,7 @@ const LoginForm = () => {
         </Label>
         <TextField
           name="password"
+          type="password"
           className="block w-full p-1 border rounded text-sm "
           validation={{ required: true }}
         />
