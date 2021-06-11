@@ -9,8 +9,9 @@ import {
   Submit,
 } from '@redwoodjs/forms'
 import { useMutation } from '@redwoodjs/web'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { QUERY as CommentsQuery } from 'src/components/CommentsCell'
+import { useAuth } from '@redwoodjs/auth'
 
 const CREATE = gql`
   mutation CreateCommentMutation($input: CreateCommentInput!) {
@@ -24,7 +25,15 @@ const CREATE = gql`
 `
 
 const CommentForm = ({ postId }) => {
+  const { logOut, isAuthenticated, currentUser } = useAuth()
   const [hasPosted, setHasPosted] = useState(false)
+  const [email, setEmail] = useState('')
+
+  useEffect(() => {
+    if(isAuthenticated) {
+      setEmail(currentUser.email)
+    }
+  }, [])
 
   const [createComment, { loading, error }] = useMutation(CREATE, {
     onCompleted: () => {
@@ -34,8 +43,15 @@ const CommentForm = ({ postId }) => {
   })
 
   const onSubmit = (input) => {
+    if(isAuthenticated) input.name = currentUser.email
     createComment({ variables: { input: { postId, ...input } } })
   }
+
+  const handleChange = (change) => {
+    setValue("controlledSelect", change, {
+      shouldDirty: true
+    });
+  };
 
   return (
     <div className="relative">
@@ -66,6 +82,8 @@ const CommentForm = ({ postId }) => {
           name="name"
           className="block w-full p-1 border rounded text-sm "
           validation={{ required: true }}
+          defaultValue={email}
+          disabled={email}
         />
 
         <Label
