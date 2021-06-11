@@ -109,6 +109,7 @@ import { db } from 'src/lib/db'
  */
  export const getCurrentUser = async (decoded) => {
   //return { ...decoded, roles: parseJWT({ decoded }).roles }
+
   const userRoles = await db.userRole.findMany({
     where: { user: { uuid: decoded.sub } },
     select: { name: true },
@@ -118,7 +119,7 @@ import { db } from 'src/lib/db'
     return role.name
   })
 
-  return context.currentUser || { roles }
+  return { ...decoded, roles }
 }
 
 /**
