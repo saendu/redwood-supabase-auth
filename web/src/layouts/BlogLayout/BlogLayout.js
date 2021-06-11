@@ -5,7 +5,8 @@ import { LoginModalContext } from 'src/lib/LoginModalContext'
 import LoginModal from 'src/components/LoginModal'
 
 const BlogLayout = ({ children }) => {
-  const { logOut, isAuthenticated, currentUser } = useAuth()
+  const { logOut, isAuthenticated, currentUser, hasRole } = useAuth()
+
   const [modalState, setModalState] = useContext(LoginModalContext)
 
   const handleModal = () => {
@@ -16,7 +17,9 @@ const BlogLayout = ({ children }) => {
       setModalState('OPEN')
     }
   }
-  console.log(modalState)
+
+  //console.log(modalState)
+
   return (
     <>
       <header className="relative flex justify-between items-center py-4 px-8 bg-blue-700 text-white">
@@ -25,7 +28,7 @@ const BlogLayout = ({ children }) => {
             className="text-blue-400 hover:text-blue-100 transition duration-100"
             to={routes.home()}
           >
-            Redwood Blog
+            Skateboard Blog
           </Link>
         </h1>
         <nav>
@@ -46,6 +49,16 @@ const BlogLayout = ({ children }) => {
                 Contact
               </Link>
             </li>
+            {hasRole(['admin']) && (
+              <li>
+                <Link
+                  className="py-2 px-4 hover:bg-blue-600 transition duration-100 rounded"
+                  to={routes.weather()}
+                >
+                  Weather
+                </Link>
+              </li>
+            )}
             <li>
               <button
                 className="py-2 px-4 hover:bg-blue-600 transition duration-100 rounded"

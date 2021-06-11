@@ -56,6 +56,7 @@
 // together with a collection of roles to check for role assignment:
 
 import { AuthenticationError, ForbiddenError, parseJWT } from '@redwoodjs/api'
+import { db } from 'src/lib/db'
 
 /**
  * Use requireAuth in your services to check that a user is logged in,
@@ -106,8 +107,18 @@ import { AuthenticationError, ForbiddenError, parseJWT } from '@redwoodjs/api'
  *   return currentUser
  * }
  */
-export const getCurrentUser = async (decoded, { _token, _type }, { _event, _context }) => {
-  return { ...decoded, roles: parseJWT({ decoded }).roles }
+ export const getCurrentUser = async (decoded) => {
+  //return { ...decoded, roles: parseJWT({ decoded }).roles }
+  const userRoles = await db.userRole.findMany({
+    where: { user: { uuid: decoded.sub } },
+    select: { name: true },
+  })
+
+  const roles = userRoles.map((role) => {
+    return role.name
+  })
+
+  return context.currentUser || { roles }
 }
 
 /**
@@ -130,23 +141,20 @@ export const getCurrentUser = async (decoded, { _token, _type }, { _event, _cont
  * requireAuth({ role: ['editor', 'author'] })
  * requireAuth({ role: ['publisher'] })
  */
-export const requireAuth = ({ role } = {}) => {
+ export const requireAuth = ({ roles } = {}) => {
+
   if (!context.currentUser) {
     throw new AuthenticationError("You don't have permission to do that.")
   }
 
-  if (
-    typeof role !== 'undefined' &&
-    typeof role === 'string' &&
-    !context.currentUser.roles?.includes(role)
-  ) {
+  if (typeof roles !== 'undefined' && typeof roles === 'string' && !context.currentUser.roles?.includes(roles)) {
     throw new ForbiddenError("You don't have access to do that.")
   }
 
   if (
-    typeof role !== 'undefined' &&
-    Array.isArray(role) &&
-    !context.currentUser.roles?.some((r) => role.includes(r))
+    typeof roles !== 'undefined' &&
+    Array.isArray(roles) &&
+    !context.currentUser.roles?.some((role) => roles.includes(role))
   ) {
     throw new ForbiddenError("You don't have access to do that.")
   }

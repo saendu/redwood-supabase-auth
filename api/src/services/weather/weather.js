@@ -1,6 +1,12 @@
 import fetch from 'node-fetch'
+import { requireAuth } from 'src/lib/auth'
+
+const ROLES = ['admin']
 
 export const getWeather = async ({ zip }) => {
+
+  requireAuth({ roles: ROLES })
+
   const response = await fetch(
     `http://api.openweathermap.org/data/2.5/weather?zip=${zip},US&appid=dfa5c3ab8c51fd1db2fee81d1481bd8f`
   )

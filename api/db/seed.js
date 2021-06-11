@@ -5,6 +5,32 @@ const dotenv = require('dotenv')
 dotenv.config()
 const db = new PrismaClient()
 
+
+
+async function main() {
+  const uuid = 'dfa8ca9c-b845-4d2f-8d7b-bd6cedb75047' // sandro
+
+  await db.user.create({
+    data: { uuid },
+  })
+
+  await db.userRole.create({
+    data: {
+      name: 'editor',
+      user: {
+        connect: { uuid },
+      },
+    },
+  })
+}
+
+main()
+  .catch((e) => console.error(e))
+  .finally(async () => {
+    await db.$disconnect()
+  })
+
+/*
 const POSTS = [
   {
     title: 'Welcome to the blog!',
@@ -41,3 +67,4 @@ main()
   .finally(async () => {
     await db.$disconnect()
   })
+  */
