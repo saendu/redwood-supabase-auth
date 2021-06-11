@@ -50,14 +50,24 @@ const BlogLayout = ({ children }) => {
               </Link>
             </li>
             {hasRole(['admin']) && (
-              <li>
-                <Link
-                  className="py-2 px-4 hover:bg-blue-600 transition duration-100 rounded"
-                  to={routes.weather()}
-                >
-                  Weather
-                </Link>
-              </li>
+              <>
+                <li>
+                  <Link
+                    className="py-2 px-4 hover:bg-blue-600 transition duration-100 rounded"
+                    to={routes.posts()}
+                  >
+                    Admin Posts
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="py-2 px-4 hover:bg-blue-600 transition duration-100 rounded"
+                    to={routes.weather()}
+                  >
+                    Weather
+                  </Link>
+                </li>
+              </>
             )}
             <li>
               <button
