@@ -6,6 +6,7 @@ export const schema = gql`
     post: Post!
     postId: Int!
     createdAt: DateTime!
+    userId: Int!
   }
 
   type Query {
@@ -16,12 +17,14 @@ export const schema = gql`
     name: String!
     body: String!
     postId: Int!
+    userId: Int!
   }
 
   input UpdateCommentInput {
     name: String
     body: String
     postId: Int
+    userId: Int
   }
 
   type Mutation {

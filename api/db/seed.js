@@ -8,17 +8,22 @@ const db = new PrismaClient()
 
 
 async function main() {
-  const uuid = 'dfa8ca9c-b845-4d2f-8d7b-bd6cedb75047' // sandro
+  const uuidAnonymous = '11111111-1111-1111-1111-111111111111' // anonymous
+  const uuidSandro = 'dfa8ca9c-b845-4d2f-8d7b-bd6cedb75047' // sandro
 
   await db.user.create({
-    data: { uuid },
+    data: { uuid: uuidAnonymous },
+  })
+
+  await db.user.create({
+    data: { uuid: uuidSandro },
   })
 
   await db.userRole.create({
     data: {
-      name: 'editor',
+      name: 'admin',
       user: {
-        connect: { uuid },
+        connect: { uuid: uuidSandro },
       },
     },
   })

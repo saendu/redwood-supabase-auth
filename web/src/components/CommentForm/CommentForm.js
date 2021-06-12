@@ -19,7 +19,8 @@ const CREATE = gql`
       id
       name
       body
-      createdAt
+      createdAt,
+      userId
     }
   }
 `
@@ -43,7 +44,12 @@ const CommentForm = ({ postId }) => {
   })
 
   const onSubmit = (input) => {
-    if(isAuthenticated) input.name = currentUser.email
+
+    if(isAuthenticated) {
+      input.name = currentUser.email
+      input.userId = currentUser.userId
+    }
+
     createComment({ variables: { input: { postId, ...input } } })
   }
 
