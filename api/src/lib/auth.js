@@ -110,8 +110,10 @@ import { db } from 'src/lib/db'
  export const getCurrentUser = async (decoded) => {
   //return { ...decoded, roles: parseJWT({ decoded }).roles }
 
+  const uuid = decoded.sub
+
   const userRoles = await db.userRole.findMany({
-    where: { user: { uuid: decoded.sub } },
+    where: { user: { uuid: uuid } },
     select: { name: true },
   })
 
@@ -119,7 +121,13 @@ import { db } from 'src/lib/db'
     return role.name
   })
 
-  return { ...decoded, roles }
+  const { id: userId } = await db.user.findUnique({
+    where: { uuid: uuid },
+    select: { id: true  },
+  })
+
+  const enrichedUserObj = { ...decoded, roles, userId };
+  return enrichedUserObj
 }
 
 /**
