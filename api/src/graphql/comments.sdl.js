@@ -17,7 +17,7 @@ export const schema = gql`
     name: String!
     body: String!
     postId: Int!
-    userId: Int!
+    userId: Int! = 1
   }
 
   input UpdateCommentInput {
